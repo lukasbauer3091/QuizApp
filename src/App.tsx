@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Select from 'react-select';
 
 import { fetchQuizQuestions } from './API';
 //Components
@@ -8,7 +9,7 @@ import {QuestionState,Difficulty} from './API'
 // Styles
 import { GlobalStyle, Wrapper } from './primstyles';
 
-//import BGImage from 'url:./images/back.jpg';
+
 
 
 export type AnswerObject = {
@@ -17,6 +18,13 @@ export type AnswerObject = {
     correct: boolean;
     correctAnswer: string;
 }
+
+const difficulty = [
+    {value: Difficulty.ANY, label: "Any"},
+    {value: Difficulty.EASY, label: "Easy"},
+    {value: Difficulty.MEDIUM, label: "Medium"},
+    {value: Difficulty.HARD, label: "Hard"}
+];
 
 function App(){
 
@@ -28,6 +36,15 @@ function App(){
     const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(true);
+    
+    const [selectedDifficulty, setSelectedDifficulty] = useState(() => difficulty[0]);
+
+
+    const handleChange = (selectedOption: {value:Difficulty,label:string} | null)  =>{
+        if (selectedOption != null){
+        setSelectedDifficulty(selectedOption);
+        console.log(selectedOption.value);}    
+    }
 
     console.log(questions);
     
@@ -35,10 +52,10 @@ function App(){
     const startTrivia = async () => {
         setLoading(true);
         setGameOver(false);
-
+        //console.log(selectedDifficulty.value);
         const newQuestions = await fetchQuizQuestions(
             TOTAL_QUESTIONS,
-            Difficulty.EASY
+            selectedDifficulty.value
         );
 
         setQuestions(newQuestions);
@@ -88,7 +105,20 @@ function App(){
       <GlobalStyle />
         <Wrapper>
             <h1>REACT QUIZ</h1>
-            
+
+            {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+                <div className="difficultyBox">
+                <h4>Difficulty</h4>
+                <Select 
+                className="difficultySelect"
+                autoSize={true}
+                options={difficulty}
+                defaultValue={selectedDifficulty}
+                onChange={(e) => handleChange(e)}
+                />
+                </div>
+            ) : null}
+
             {/*Use curly braces for inline IF expression - display start button*/}
             {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
             <button className="start" onClick={startTrivia}>
@@ -98,6 +128,7 @@ function App(){
 
             {/* Conditionals for displaying score and loading */}
             {!gameOver ? <p className="score">Score: {score}</p> : null}
+            {!gameOver ? <p className="difficulty">Difficulty: {selectedDifficulty.label}</p> : null}
             {loading && <p>Loading Questions ...</p>}
             
             {/* If not loading or game over, show questions */}

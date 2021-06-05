@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
 
+//@ts-ignore
 import BGImage from './images/back.jpg';
 
 export const GlobalStyle = createGlobalStyle` 
@@ -32,7 +33,7 @@ export const Wrapper = styled.div`
     align-items: center;
 
     > p {
-        color: #fff;
+        color: #000;
 
     }
 
@@ -59,6 +60,13 @@ export const Wrapper = styled.div`
         margin: 20px;
     }
 
+    h4 {
+        width: 250px;
+        padding-bottom: 10px;
+        margin: 0px;
+        text-align: center
+    }
+
     .start, .next{
         cursor: pointer;
         background:linear-gradient(180deg, #fff, #ffcc91);
@@ -72,6 +80,23 @@ export const Wrapper = styled.div`
 
     .start {
         max-width: 200px;
+    }
+
+    .difficultySelect{
+        width: 200px;
+        text-align: left;
+    }
+
+    .difficultyBox{
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #ebfeff;
+        border-radius: 10px;
+        border: 2px solid #0085a3;
+        padding: 20px;
+        box-shadow: 0px 5px 10px rgba(0,0,0,0.25);
     }
 
 

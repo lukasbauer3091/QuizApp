@@ -14,7 +14,8 @@ export type QuestionState = Question & { answers: string[]};
 export enum Difficulty {
     EASY = "easy",
     MEDIUM = "medium",
-    HARD = "hard"
+    HARD = "hard",
+    ANY = ""
 }
 
 export const fetchQuizQuestions = async (amount: number, difficulty: Difficulty) => {
