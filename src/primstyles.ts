@@ -95,8 +95,14 @@ export const Wrapper = styled.div`
         background: #ebfeff;
         border-radius: 10px;
         border: 2px solid #0085a3;
-        padding: 20px;
+        padding: 15px;
         box-shadow: 0px 5px 10px rgba(0,0,0,0.25);
+        margin: 2%;
+    }
+
+    .settingsRow{
+        column-count: 2;
+        display: flex;
     }
 
 

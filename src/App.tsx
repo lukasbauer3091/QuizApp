@@ -26,9 +26,16 @@ const difficulty = [
     {value: Difficulty.HARD, label: "Hard"}
 ];
 
-function App(){
+const numQuestions = [
+    {value: 5, label: "5"},
+    {value: 10, label: "10"},
+    {value: 15, label: "15"},
+    {value: 20, label: "20"},
+    {value: 30, label: "30"}
+];
 
-    const TOTAL_QUESTIONS = 10;
+
+function App(){
 
     const [loading, setLoading] = useState(false);
     const [questions, setQuestions] = useState<QuestionState[]>([]);
@@ -38,11 +45,18 @@ function App(){
     const [gameOver, setGameOver] = useState(true);
     
     const [selectedDifficulty, setSelectedDifficulty] = useState(() => difficulty[0]);
+    const [selectedNumQuestions, setSelectedNumQuestions] = useState(() => numQuestions[0]);
 
 
     const handleChange = (selectedOption: {value:Difficulty,label:string} | null)  =>{
         if (selectedOption != null){
         setSelectedDifficulty(selectedOption);
+        console.log(selectedOption.value);}    
+    }
+
+    const handleNumChange = (selectedOption: {value:number,label:string} | null)  =>{
+        if (selectedOption != null){
+        setSelectedNumQuestions(selectedOption);
         console.log(selectedOption.value);}    
     }
 
@@ -54,7 +68,7 @@ function App(){
         setGameOver(false);
         //console.log(selectedDifficulty.value);
         const newQuestions = await fetchQuizQuestions(
-            TOTAL_QUESTIONS,
+            selectedNumQuestions.value,
             selectedDifficulty.value
         );
 
@@ -92,7 +106,7 @@ function App(){
         // Move on to the next question if not the last one
         const nextQuestion = number + 1;
 
-        if (nextQuestion === TOTAL_QUESTIONS){
+        if (nextQuestion === selectedNumQuestions.value){
             setGameOver(true);
         }
         else{
@@ -106,21 +120,33 @@ function App(){
         <Wrapper>
             <h1>REACT QUIZ</h1>
 
-            {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+            {gameOver || userAnswers.length === selectedNumQuestions.value ? (
+                <div className="settingsRow">
                 <div className="difficultyBox">
                 <h4>Difficulty</h4>
                 <Select 
                 className="difficultySelect"
-                autoSize={true}
                 options={difficulty}
+                isSearchable={false}
                 defaultValue={selectedDifficulty}
                 onChange={(e) => handleChange(e)}
                 />
                 </div>
+                <div className="difficultyBox">
+                <h4>Number of Questions</h4>
+                <Select 
+                className="difficultySelect"
+                options={numQuestions}
+                defaultValue={selectedNumQuestions}
+                onChange={(e) => handleNumChange(e)}
+                />
+                </div>
+
+                </div>
             ) : null}
 
             {/*Use curly braces for inline IF expression - display start button*/}
-            {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+            {gameOver || userAnswers.length === selectedNumQuestions.value ? (
             <button className="start" onClick={startTrivia}>
                 Start
             </button>
@@ -135,7 +161,7 @@ function App(){
             {!loading && !gameOver && (
             <QuestionCard 
                 questionNr={number + 1}
-                totalQuestions = {TOTAL_QUESTIONS}
+                totalQuestions = {selectedNumQuestions.value}
                 question = {questions[number].question}
                 answers = {questions[number].answers}
                 userAnswer = {userAnswers ? userAnswers[number] : undefined}
@@ -144,7 +170,7 @@ function App(){
             )}
 
             {/* Display next button after user inputs their answer */}
-            {!gameOver && !loading && userAnswers.length === number+1 &&number !== TOTAL_QUESTIONS - 1 ? (
+            {!gameOver && !loading && userAnswers.length === number+1 &&number !== selectedNumQuestions.value - 1 ? (
             <button className="next" onClick={nextQuestion}>
                 Next Question
             </button>
