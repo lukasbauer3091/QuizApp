@@ -85,6 +85,7 @@ export const Wrapper = styled.div`
     .difficultySelect{
         width: 200px;
         text-align: left;
+        
     }
 
     .difficultyBox{
@@ -96,14 +97,33 @@ export const Wrapper = styled.div`
         border-radius: 10px;
         border: 2px solid #0085a3;
         padding: 15px;
-        box-shadow: 0px 5px 10px rgba(0,0,0,0.25);
-        margin: 2%;
     }
 
-    .settingsRow{
-        column-count: 2;
+    .Collapsible__trigger {
+        
+        text-align: center;
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 10px;
+        border: 2px solid #0085a3;
+        padding: 15px;
+        box-shadow: 0px 5px 10px rgba(0,0,0,0.25);
+        margin: 2%;
+
+        :hover{
+        opacity: 0.7;
+        }
     }
+
+    .Collapsible__contentInner {
+        display:flex; 
+        flex-direction: row;    
+        height: auto;
+
+            
+  }
+
 
 
 `

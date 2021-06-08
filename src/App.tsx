@@ -9,6 +9,8 @@ import {QuestionState,Difficulty} from './API'
 // Styles
 import { GlobalStyle, Wrapper } from './primstyles';
 
+import Collapsible from 'react-collapsible';
+
 
 
 
@@ -121,11 +123,12 @@ function App(){
             <h1>REACT QUIZ</h1>
 
             {gameOver || userAnswers.length === selectedNumQuestions.value ? (
-                <div className="settingsRow">
+                <Collapsible trigger="Preferences" className="preferences-collapsible">
                 <div className="difficultyBox">
                 <h4>Difficulty</h4>
                 <Select 
                 className="difficultySelect"
+                menuPosition="fixed"
                 options={difficulty}
                 isSearchable={false}
                 defaultValue={selectedDifficulty}
@@ -136,13 +139,14 @@ function App(){
                 <h4>Number of Questions</h4>
                 <Select 
                 className="difficultySelect"
+                menuPosition="fixed"
                 options={numQuestions}
                 defaultValue={selectedNumQuestions}
                 onChange={(e) => handleNumChange(e)}
                 />
                 </div>
 
-                </div>
+                </Collapsible>
             ) : null}
 
             {/*Use curly braces for inline IF expression - display start button*/}
