@@ -123,7 +123,7 @@ function App(){
             <h1>REACT QUIZ</h1>
 
             {gameOver || userAnswers.length === selectedNumQuestions.value ? (
-                <Collapsible trigger="Preferences" className="preferences-collapsible">
+                <Collapsible easing="ease" trigger="Preferences">
                 <div className="difficultyBox">
                 <h4>Difficulty</h4>
                 <Select 
@@ -141,6 +141,7 @@ function App(){
                 className="difficultySelect"
                 menuPosition="fixed"
                 options={numQuestions}
+                isSearchable={false}
                 defaultValue={selectedNumQuestions}
                 onChange={(e) => handleNumChange(e)}
                 />

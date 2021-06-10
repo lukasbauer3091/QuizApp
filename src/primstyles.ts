@@ -69,17 +69,37 @@ export const Wrapper = styled.div`
 
     .start, .next{
         cursor: pointer;
-        background:linear-gradient(180deg, #fff, #ffcc91);
-        border: 2px solid #d38558;
+        background:linear-gradient(180deg, #fff, #ebfeff);
+        border: 2px solid #0085a3;
         box-shadow: 0px 5px 10px rgba(0,0,0,0.25);
         border-radius: 10px;
-        height: 40px;
+        height: 2.2em;
         margin: 20px 0;
-        padding: 0 40px;
+        padding: 0 2.2em;
+        
+
+        :hover{
+        opacity: 0.9;
+        animation-name: pulse;
+        animation-duration: .6s;
+        animation-iteration-count: infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     }
 
     .start {
-        max-width: 200px;
+        max-width: 300px;
+        font-size: 1.5em;
     }
 
     .difficultySelect{
@@ -97,30 +117,62 @@ export const Wrapper = styled.div`
         border-radius: 10px;
         border: 2px solid #0085a3;
         padding: 15px;
+        margin: 0px 3px 0px 3px;
     }
 
-    .Collapsible__trigger {
-        
-        text-align: center;
+    .Collapsible {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
-        border-radius: 10px;
-        border: 2px solid #0085a3;
-        padding: 15px;
-        box-shadow: 0px 5px 10px rgba(0,0,0,0.25);
-        margin: 2%;
+    }
+    
 
+    .Collapsible__trigger {
+        font-size: 1em;
+        cursor: pointer;
+        color:  #0085a3;
+        border: 2px solid #0085a3;
+        border-radius: 10px;
+        margin: 2%;
+        padding: 10px 40px 10px 20px;
+        
+        transition: transform .1s, opacity .1s;
+        
         :hover{
-        opacity: 0.7;
+        opacity: 0.9;
+        transform: scale(1.03);
+        }
+
+        &:after{
+        margin: 0px 0px 0px 15px;
+        content: '|';
+        position: absolute;
+        
+        transform: rotate(90deg);
+        transform-origin: center;
+        transition: transform 300ms;
+                
+        }
+
+
+        &.is-open {
+            &:after {
+            transform: rotate(0deg);
+            }
         }
     }
+
+ 
+    &.is-open {
+    .Collapsible__trigger::after {
+      transform: rotateZ(180deg);
+    }
+  }
 
     .Collapsible__contentInner {
         display:flex; 
         flex-direction: row;    
-        height: auto;
-
             
   }
 
