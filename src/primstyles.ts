@@ -78,6 +78,12 @@ export const Wrapper = styled.div`
         padding: 0 2.2em;
         
 
+        
+    }
+
+    .start {
+        max-width: 300px;
+        font-size: 1.5em;
         :hover{
         opacity: 0.9;
         animation-name: pulse;
@@ -95,11 +101,6 @@ export const Wrapper = styled.div`
                 transform: scale(1);
             }
         }
-    }
-
-    .start {
-        max-width: 300px;
-        font-size: 1.5em;
     }
 
     .difficultySelect{
