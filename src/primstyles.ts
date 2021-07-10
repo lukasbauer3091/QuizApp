@@ -4,19 +4,43 @@ import styled from 'styled-components';
 //@ts-ignore
 import BGImage from './images/back.jpg';
 
+
 export const GlobalStyle = createGlobalStyle` 
     html{
         height: 100%;
     }
 
     body {
-        background-image: url(${BGImage});
-        background-size: cover;
+        /*background-image: url(${BGImage});*/
+        background: linear-gradient(313deg, #49e6d8, #546fd6);
+        background-size: 400% 400%;
         margin: 0;
         padding: 0 20px;
         display: flex;
         justify-content: center;
 
+        -webkit-animation: AnimationName 40s ease infinite;
+        -moz-animation: AnimationName 40s ease infinite;
+        animation: AnimationName 40s ease infinite;
+
+    }
+
+    
+
+    @-webkit-keyframes AnimationName {
+    0%{background-position:40% 0%}
+    50%{background-position:61% 100%}
+    100%{background-position:40% 0%}
+    }
+    @-moz-keyframes AnimationName {
+        0%{background-position:40% 0%}
+        50%{background-position:61% 100%}
+        100%{background-position:40% 0%}
+    }
+    @keyframes AnimationName {
+        0%{background-position:40% 0%}
+        50%{background-position:61% 100%}
+        100%{background-position:40% 0%}
     }
 
     * {
@@ -53,7 +77,7 @@ export const Wrapper = styled.div`
         --moz-background-clip: text;
         --moz-text-fill-color: transparent;
 
-        filter: drop-shadow(2px 2px #0085a3);
+        filter: drop-shadow(2px 2px #ebfeff);
         font-size: 70px;
         font-weight: 400;
         text-align: center;
@@ -132,7 +156,8 @@ export const Wrapper = styled.div`
     .Collapsible__trigger {
         font-size: 1em;
         cursor: pointer;
-        color:  #0085a3;
+        color:  #000;
+        background: #ebfeff;
         border: 2px solid #0085a3;
         border-radius: 10px;
         margin: 2%;

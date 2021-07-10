@@ -45,6 +45,7 @@ function App(){
     const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(true);
+    const [gameEnd, setGameEnd] = useState(false);
     
     const [selectedDifficulty, setSelectedDifficulty] = useState(() => difficulty[0]);
     const [selectedNumQuestions, setSelectedNumQuestions] = useState(() => numQuestions[0]);
@@ -62,12 +63,13 @@ function App(){
         console.log(selectedOption.value);}    
     }
 
-    console.log(questions);
+    
     
 
     const startTrivia = async () => {
         setLoading(true);
         setGameOver(false);
+        setGameEnd(false);
         //console.log(selectedDifficulty.value);
         const newQuestions = await fetchQuizQuestions(
             selectedNumQuestions.value,
@@ -101,6 +103,7 @@ function App(){
                 setUserAnswers((prev) => [...prev, answerObject]);
             }
         }
+        
 
     }
 
@@ -109,11 +112,49 @@ function App(){
         const nextQuestion = number + 1;
 
         if (nextQuestion === selectedNumQuestions.value){
-            setGameOver(true);
+            /* set game END state */
+            setGameEnd(true);
+
         }
         else{
             setNumber(nextQuestion);
         }
+    }
+
+    const showStart = () => {
+        if (gameOver){
+            return (<button className="start" onClick={startTrivia}>
+            Start
+        </button>)
+        }
+        else if (gameEnd){
+            return (<button className="next" onClick={reset}>
+            Main Menu
+        </button>)
+        }
+    }
+
+    const reset = () => {
+        setLoading(false);
+        setNumber(0);
+        setScore(0);
+        setGameOver(true);
+        setGameEnd(false);
+    }
+
+    const displayAnswers = () => {
+        let ansArr = [];
+        for (let questionNumber = 0; questionNumber < selectedNumQuestions.value; questionNumber++){
+            ansArr.push(<QuestionCard 
+                questionNr={questionNumber + 1}
+                totalQuestions = {selectedNumQuestions.value}
+                question = {questions[questionNumber].question}
+                answers = {questions[questionNumber].answers}
+                userAnswer = {userAnswers ? userAnswers[questionNumber] : undefined}
+                callback = {checkAnswer}
+            />)
+        }
+        return (<Collapsible easing="ease" trigger="Your Answers"><Wrapper>{ansArr}</Wrapper></Collapsible>);
     }
 
     return (
@@ -122,7 +163,7 @@ function App(){
         <Wrapper>
             <h1>REACT QUIZ</h1>
 
-            {gameOver || userAnswers.length === selectedNumQuestions.value ? (
+            {gameOver  ? (
                 <Collapsible easing="ease" trigger="Preferences">
                 <div className="difficultyBox">
                 <h4>Difficulty</h4>
@@ -151,19 +192,17 @@ function App(){
             ) : null}
 
             {/*Use curly braces for inline IF expression - display start button*/}
-            {gameOver || userAnswers.length === selectedNumQuestions.value ? (
-            <button className="start" onClick={startTrivia}>
-                Start
-            </button>
-            ) : null}
+            {/* to check that all the answers have been made: || userAnswers.length === selectedNumQuestions.value*/}
+            
 
             {/* Conditionals for displaying score and loading */}
-            {!gameOver ? <p className="score">Score: {score}</p> : null}
+            {!gameOver && !gameEnd ? <p className="score">Score: {score}</p> : null}
+            {!gameOver && gameEnd ? <p className="score">Final Score: {score}</p> : null}
             {!gameOver ? <p className="difficulty">Difficulty: {selectedDifficulty.label}</p> : null}
             {loading && <p>Loading Questions ...</p>}
             
             {/* If not loading or game over, show questions */}
-            {!loading && !gameOver && (
+            {!gameEnd && !loading && !gameOver && (
             <QuestionCard 
                 questionNr={number + 1}
                 totalQuestions = {selectedNumQuestions.value}
@@ -175,13 +214,23 @@ function App(){
             )}
 
             {/* Display next button after user inputs their answer */}
-            {!gameOver && !loading && userAnswers.length === number+1 &&number !== selectedNumQuestions.value - 1 ? (
+            {!gameOver && !loading && userAnswers.length === number + 1 && number !== selectedNumQuestions.value - 1 ? (
             <button className="next" onClick={nextQuestion}>
                 Next Question
             </button>
 
             ) : null}
 
+            {!gameEnd && !gameOver && !loading && userAnswers.length === number + 1 && number === selectedNumQuestions.value-1 ? (
+            <button className="next" onClick={nextQuestion}>
+                Finish Quiz
+            </button>
+
+            ) : null}
+
+            {gameEnd ? displayAnswers(): null}
+
+            {showStart()}
 
         </Wrapper>
         </>
